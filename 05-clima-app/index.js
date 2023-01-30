@@ -1,5 +1,7 @@
-import {leerInput, inquirerMenu, pausa}  from "./helpers/inquirer.js";
+import {leerInput, inquirerMenu, listarLugares ,pausa}  from "./helpers/inquirer.js";
 import { Busquedas } from "./models/busquedas.js";
+import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+dotenv.config()
 
 const main = async() =>{ 
     const busquedas = new Busquedas();
@@ -12,22 +14,25 @@ const main = async() =>{
         switch(opt){
             case 1:
                 //mostrar mensaje
-                const lugar = await leerInput('Ciudad: ');
-                await busquedas.ciudad(lugar);
+                const termino = await leerInput('Ciudad: ');
                 //buscar lugares
-
+                const lugares = await busquedas.ciudad(termino);
+                
                 //seleccionar el lugar
+                const id = await listarLugares(lugares);
+                const lugarSel = lugares.find(lugar => lugar.id === id);
 
                 //clima
-
+                const clima = await busquedas.climaLugar(lugarSel.lat,lugarSel.lng)
                 //resultados
                 console.log('\ninformacion de la ciudad\n'.green);
-                console.log('Ciudad:',);
-                console.log('Lat:',);
-                console.log('Lng:',);
-                console.log('Temperatura:',);
-                console.log('Minima:',);
-                console.log('Máxima:',);
+                console.log('Ciudad:', lugarSel.nombre.green);
+                console.log('Lat:',lugarSel.lat);
+                console.log('Lng:',lugarSel.lng);
+                console.log('Temperatura:',clima.temp);
+                console.log('Minima:',clima.min);
+                console.log('Máxima:',clima.max);
+                console.log('Como está el clima:',clima.desc.green);
             break;
         }
 
