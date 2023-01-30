@@ -8,14 +8,25 @@ class Busquedas{
         //TODO LEER DB
     }
 
+    get paramsMapbox(){
+        return {
+            'access_token': 'pk.eyJ1IjoicmF1bHJvbWVybzI2IiwiYSI6ImNsZGl4bjkzcjFneXczcG1wYWo1OHdlc2sifQ.kpzVNWm4rIrqWqTFFmqYLg',
+            'limit': 5,
+            'language': 'es'
+        }
+    }
+
     async ciudad(lugar = ''){
         //peticion http
-        //console.log('ciudad',lugar);
         try {
-            const resp = await axios.get('https://reqres.in/api/users?page=2');
+            const instance = axios.create({
+                baseURL: `https://api.mapbox.com/geocoding/v5/mapbox.places/${lugar}.json`,
+                params: this.paramsMapbox
+            });
+
+            const resp = await instance.get();
             console.log(resp.data);
-            return []; //retornar los lugares
-            
+            return [];
         } catch (error) {
             return [];
         }
