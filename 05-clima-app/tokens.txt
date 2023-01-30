@@ -1,0 +1,4 @@
+MAPBOX_KEY=pk.eyJ1IjoicmF1bHJvbWVybzI2IiwiYSI6ImNsZGl4bjkzcjFneXczcG1wYWo1OHdlc2sifQ.kpzVNWm4rIrqWqTFFmqYLg
+
+
+https://api.mapbox.com/geocoding/v5/mapbox.places/madrid%20es.json?proximity=ip&language=es&access_token=pk.eyJ1IjoicmF1bHJvbWVybzI2IiwiYSI6ImNsZGl4bjkzcjFneXczcG1wYWo1OHdlc2sifQ.kpzVNWm4rIrqWqTFFmqYLg
