@@ -1,7 +1,12 @@
-const express = require('express')
+const express = require('express');
+const hbs = require('hbs');
+
 const app = express();
 const port = 8080;
 
+//Manejo del Handlebars
+app.set('view engine', 'hbs');
+hbs.registerPartials(__dirname + '/views/partials');
 //Middleware una funcion que se ejecuta antes de hacer otra cosa
 //servir contenido estatico
 app.use(express.static('public'))//es la ruta de la carpeta es como decirle a express el / ahora es public
@@ -10,18 +15,32 @@ app.use(express.static('public'))//es la ruta de la carpeta es como decirle a ex
   res.send('Hello World')
 });*/
 
+//Esta funcion vendria a ser el controlador del modelo MVC
+app.get('/', (req, res) => {
+    res.render('home',{
+        nombre: 'Raul Romero',
+        titulo: 'Curso Node'
+    });
+});
+
 app.get('/generic', (req, res) => {
-    res.sendFile(__dirname+'/public/generic.html')
+    res.render('generic',{
+        nombre: 'Raul Romero',
+        titulo: 'Curso Node'
+    });
 });
 
 app.get('/elements', (req, res) => {
-    res.sendFile(__dirname+'/public/elements.html')
+    res.render('elements',{
+        nombre: 'Raul Romero',
+        titulo: 'Curso Node'
+    });
 });
 
 app.get('*', (req, res) => {
-    res.sendFile(__dirname+'/public/404.html')
+    res.sendFile(__dirname+'/public/404.html');
 });
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`Example app listening on port ${port}`);
 });
