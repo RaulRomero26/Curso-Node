@@ -1,5 +1,6 @@
 
 const { Router } = require('express');
+const { check } = require('express-validator');
 const { usuariosGet, usuariosPut, usuariosPost, usuariosDelete, usuariosPatch } = require('../controllers/usuarios.controller');
 
 const router = Router();
@@ -10,7 +11,9 @@ router.get('/', usuariosGet ) //no se ejecuta se manda la referencia a la funcio
 
 router.put('/:id', usuariosPut )
 
-router.post('/', usuariosPost )
+router.post('/',[
+    check('correo','El correo no es válido').isEmail(),
+], usuariosPost )
 
 router.delete('/', usuariosDelete )
 
