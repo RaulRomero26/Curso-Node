@@ -31,5 +31,12 @@ const UsuarioScheema = Schema({
         default: false,
     },
 });
+//esto esta sobreescriendo una funcion propia de mongoose debde de ser en funcion normal 
+//o no jala, se sacan los valores que no queremos regresar como respuesta
+//pero si se guardan en db
+UsuarioScheema.methods.toJSON = function (){
+    const {__v,password,...usuario} = this.toObject();
+    return usuario;
+}
 
 module.exports = model('Usuario',UsuarioScheema);
