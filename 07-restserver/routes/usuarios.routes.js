@@ -3,7 +3,7 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 
 const { validarCampos } = require('../middlewares/validar-campos');
-const { esRoleValido, emailExiste} = require('../helpers/db-validatos');
+const { esRoleValido, emailExiste, existeUsuarioPorId} = require('../helpers/db-validatos');
 
 const { usuariosGet, usuariosPut, usuariosPost, usuariosDelete, usuariosPatch } = require('../controllers/usuarios.controller');
 
@@ -14,7 +14,12 @@ const router = Router();
 
 router.get('/', usuariosGet ) //no se ejecuta se manda la referencia a la funcion
 
-router.put('/:id', usuariosPut )
+router.put('/:id', [
+    check('id','No es un id valido').isMongoId(),
+    check('id').custom( existeUsuarioPorId ),
+    check('rol').custom( esRoleValido ),
+    validarCampos
+],usuariosPut )
 
 router.post('/',[
     check('nombre','El nombre es obligatorio').not().isEmpty(),
@@ -26,7 +31,11 @@ router.post('/',[
     validarCampos
 ], usuariosPost )
 
-router.delete('/', usuariosDelete )
+router.delete('/:id',[
+    check('id','No es un id valido').isMongoId(),
+    check('id').custom( existeUsuarioPorId ),
+    validarCampos
+], usuariosDelete )
 
 router.patch('/', usuariosPatch )
 
