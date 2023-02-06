@@ -1,0 +1,12 @@
+[{
+  "_id": {
+    "$oid": "63e068d0d65893358a89d6b0"
+  },
+  "nombre": "test1",
+  "correo": "tes1@tesr1.com",
+  "password": "$2a$10$B5YLnq/X86yOdf0g02XIeuy8vAS.erHYsf63AFNTEYpreE1WrWnPO",
+  "rol": "VENTAS_ROLE",
+  "estado": true,
+  "google": false,
+  "__v": 0
+}]
