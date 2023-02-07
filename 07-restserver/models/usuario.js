@@ -35,7 +35,8 @@ const UsuarioScheema = Schema({
 //o no jala, se sacan los valores que no queremos regresar como respuesta
 //pero si se guardan en db
 UsuarioScheema.methods.toJSON = function (){
-    const {__v,password,...usuario} = this.toObject();
+    const {__v,password,_id,...usuario} = this.toObject();
+    usuario.uid=_id;
     return usuario;
 }
 
