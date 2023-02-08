@@ -70,16 +70,15 @@ const usuariosDelete = async (req, res) => {
 
     const { id } = req.params;
     //ojo que esto viene enlasado de las validaciones jwt
-    const uid = req.uid;
-
     //se cambia el estado a false
     const usuario = await Usuario.findByIdAndUpdate(id,{estado: false});
+    const usuarioAutenticado = req.usuario;
 
     res.json({
         ok: true,
         msg: 'delete API - controlador',
         usuario,
-        uid
+        usuarioAutenticado,
     })
 }
 
