@@ -8,7 +8,7 @@ const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares');
 
 const router = Router();
-
+//check('id').custom( existeCategoria )
 //Obtener todas las categorias - Publico 
 router.get('/', (req,res) => {
     res.json('get')
