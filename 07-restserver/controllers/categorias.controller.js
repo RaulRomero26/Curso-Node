@@ -2,6 +2,14 @@ const { response } = require("express");
 
 const { Categoria } = require('../models')
 
+//obtenerCategorias -paginado-total-populate
+
+//obtenerCategoria-populate{}
+
+//actualizarCategoria
+
+//borrarCategoria -estado: false
+
 
 const crearCategoria = async(req, res = response) => {
 
