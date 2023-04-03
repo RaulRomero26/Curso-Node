@@ -8,9 +8,12 @@ class Server {
     constructor(){
         this.app = express();
         this.port = process.env.PORT;
-        this.usuariosPath = '/api/usuarios';
-        this.authPath = '/api/auth';
-
+        this.paths = {
+            usuarios: '/api/usuarios',
+            categorias: '/api/categorias',
+            auth: '/api/auth'
+        }
+        
         //Conectar a base de datos
         this.conectarDB();
 
@@ -36,8 +39,9 @@ class Server {
 
     routes(){
         //aca se decide que ruta asignarle y de que archivo tomar las configuraciones
-        this.app.use( this.authPath, require('../routes/auth.routes'));
-        this.app.use( this.usuariosPath, require('../routes/usuarios.routes'));
+        this.app.use( this.paths.auth, require('../routes/auth.routes'));
+        this.app.use( this.paths.usuarios, require('../routes/usuarios.routes'));
+        this.app.use( this.paths.categorias, require('../routes/categorias.routes'));
     }
 
     listen(){
