@@ -4,7 +4,39 @@ const { Categoria } = require('../models')
 
 //obtenerCategorias -paginado-total-populate
 
+const obtenerCategorias = async(req, res = response) => {
+
+    const {limite = 5,desde = 0 } = req.query;
+    const query = {estado: true}
+
+    const [total,categorias] = await Promise.all(
+        [Categoria.countDocuments(query),
+        Categoria.find(query)
+        .populate('usuario','nombre')
+        .skip(Number(desde))
+        .limit(Number(limite))])
+
+    res.json({
+        ok: true,
+        msg: 'get API - controlador',
+        total,
+        categorias
+    })
+}
+
 //obtenerCategoria-populate{}
+
+
+const obtenerCategoria = async(req, res = response ) => {
+
+    const { id } = req.params;
+    const categoria = await Categoria.findById( id )
+                            .populate('usuario', 'nombre');
+
+    res.json( categoria );
+
+}
+
 
 //actualizarCategoria
 
@@ -38,5 +70,7 @@ const crearCategoria = async(req, res = response) => {
 }
 
 module.exports = {
-    crearCategoria
+    crearCategoria,
+    obtenerCategorias,
+    obtenerCategoria
 }
