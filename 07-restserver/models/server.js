@@ -10,6 +10,7 @@ class Server {
         this.port = process.env.PORT;
         this.paths = {
             usuarios: '/api/usuarios',
+            buscar: '/api/buscar',
             categorias: '/api/categorias',
             productos: '/api/productos',
             auth: '/api/auth'
@@ -41,6 +42,7 @@ class Server {
     routes(){
         //aca se decide que ruta asignarle y de que archivo tomar las configuraciones
         this.app.use( this.paths.auth, require('../routes/auth.routes'));
+        this.app.use( this.paths.buscar, require('../routes/buscar.routes'));
         this.app.use( this.paths.usuarios, require('../routes/usuarios.routes'));
         this.app.use( this.paths.productos, require('../routes/productos.routes'));
         this.app.use( this.paths.categorias, require('../routes/categorias.routes'));
