@@ -11,7 +11,7 @@ class Server {
         this.paths = {
             usuarios: '/api/usuarios',
             categorias: '/api/categorias',
-            productos: 'api/productos',
+            productos: '/api/productos',
             auth: '/api/auth'
         }
         
