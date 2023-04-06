@@ -1,27 +1,33 @@
-const path = require('path');
 
-const { response } = require('express')
 
-const cargarArchivo = (req, res = response ) => {
+const { response } = require('express');
+const { subirArchivo } = require('../helpers');
+
+const cargarArchivo = async(req, res = response ) => {
 
     if (!req.files || Object.keys(req.files).length === 0 || !req.files.archivo) {
         res.status(400).json({msg: 'No hay archivos en la petición'});
         return;
     }
 
-   
-    const {archivo} = req.files;
+    try {
 
-    const uploadPath =path.join( __dirname, '../uploads/', archivo.name);
+        // const nombre = await subirArchivo( req.files, ['txt','md'],'textos');
+        const nombre = await subirArchivo( req.files, undefined, 'imgs');
+        res.json({
+            nombre
+        })
 
-    archivo.mv(uploadPath, (err) => {
-        if (err) {
-            console.log(err)
-            return res.status(500).json({err});
-        }
+    } catch (msg) {
+        res.status(400).json({msg});
+    }
 
-        res.json({msg: 'El archivo se subio a'+ uploadPath});
-    });
+   const nombre = await subirArchivo( req.files);
+
+   res.json({
+        nombre
+   })
+    
 
 
 }
