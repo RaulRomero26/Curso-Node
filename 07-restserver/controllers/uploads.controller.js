@@ -1,4 +1,5 @@
-
+const path = require('path');
+const fs = require('fs');
 
 const { response } = require('express');
 const { Usuario, Producto } = require('../models');
@@ -60,6 +61,17 @@ const actualizarImagen = async(req,res=response) => {
         default:
             res.status(500).json({msg: 'Se me olvido validar esto'})
     }
+
+    //Limpiar imagenes previas 
+
+    if(modelo.img) {
+        //Hay que borrar la imagen del servidor 
+        const pathImagen = path.join(__dirname,'../uploads',coleccion,modelo.img);
+        if(fs.existsSync(pathImagen)){
+            fs.unlinkSync(pathImagen)
+        }
+    }
+
 
     const nombre = await subirArchivo( req.files, undefined, coleccion);
     modelo.img = nombre;
