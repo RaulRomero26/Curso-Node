@@ -46,6 +46,11 @@ class Server {
             socket.on('disconnect', () => {
                 console.log('cliente desconectado');
             })
+
+            socket.on('enviar-mensaje',( payload ) => {//socket es para el cliente 
+               this.io.emit('enviar-mensaje',payload)//io al ser propiedad del servidor es para emit del servidor a cliente o clientes
+
+            })
         });
     }
 
