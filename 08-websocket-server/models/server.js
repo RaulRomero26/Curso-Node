@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { Socket } = require('socket.io');
 
 class Server {
 
@@ -18,6 +19,9 @@ class Server {
 
         // Rutas de mi aplicación
         this.routes();
+
+        //Sockets
+        this.sockets();
     }
 
     middlewares() {
@@ -34,6 +38,15 @@ class Server {
         
         //this.app.use( this.paths.auth, require('../routes/auth'));
         
+    }
+
+    sockets() {
+        this.io.on('connection', socket => {
+            console.log('Cliente conectado',socket.id);
+            socket.on('disconnect', () => {
+                console.log('cliente desconectado');
+            })
+        });
     }
 
     listen() {
