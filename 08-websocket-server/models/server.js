@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { Socket } = require('socket.io');
+const { socketControler } = require('../sockets/controller');
 
 class Server {
 
@@ -41,18 +42,7 @@ class Server {
     }
 
     sockets() {
-        this.io.on('connection', socket => {
-            console.log('Cliente conectado',socket.id);
-            socket.on('disconnect', () => {
-                console.log('cliente desconectado');
-            })
-
-            socket.on('enviar-mensaje',( payload,callback ) => {//socket es para el cliente 
-                this.io.emit('enviar-mensaje',payload)//io al ser propiedad del servidor es para emit del servidor a cliente o clientes
-                const id = 123456;
-                callback(id)
-            })
-        });
+        this.io.on('connection', socketControler);
     }
 
     listen() {
