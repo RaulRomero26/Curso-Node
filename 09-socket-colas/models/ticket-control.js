@@ -50,7 +50,7 @@ class TicketControl {
     siguiente() {
         this.ultimo +=1;
         const ticket = new Ticket (this.ultimo, null);
-        this.tickets.pusj(ticket);
+        this.tickets.push(ticket);
         this.guardarDB();
 
         return 'Ticket ' + ticket.numero;
