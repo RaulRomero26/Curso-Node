@@ -57,7 +57,7 @@ class TicketControl {
     }
 
     atenderTicket(escritorio){
-        if(this.tickets,length === 0){
+        if(this.tickets.length === 0){
             return null;
         }
 
