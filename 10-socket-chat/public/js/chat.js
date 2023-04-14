@@ -1,8 +1,11 @@
+const url = ( window.location.hostname.includes('localhost') )
+            ? 'http://localhost:8080/api/auth/'
+            : 'https://restserver-curso-fher.herokuapp.com/api/auth/';
 
 let usuario = null;
-let socket = null;
+let socket  = null;
 
-//referencias html
+// Referencias HTML
 const txtUid     = document.querySelector('#txtUid');
 const txtMensaje = document.querySelector('#txtMensaje');
 const ulUsuarios = document.querySelector('#ulUsuarios');
@@ -10,32 +13,32 @@ const ulMensajes = document.querySelector('#ulMensajes');
 const btnSalir   = document.querySelector('#btnSalir');
 
 
-const url = 'http://localhost:8081/api/auth/'
 
-//validar el token del local storage
-const validarJWT = async () => {
+// Validar el token del localstorage
+const validarJWT = async() => {
 
     const token = localStorage.getItem('token') || '';
 
-    if( token.length <= 10 ){
+    if ( token.length <= 10 ) {
         window.location = 'index.html';
-        throw new Error('No hay token en el servidor')
+        throw new Error('No hay token en el servidor');
     }
 
-    const resp = await fetch (url , {
-        headers: { 'x-token': token}
-    })
+    const resp = await fetch( url, {
+        headers: { 'x-token': token }
+    });
 
-    const {usuario: userDb, token: tokenDB} = await resp.json();
-    localStorage.setItem('token',tokenDB);
-    usuario = userDb;
+    const { usuario: userDB, token: tokenDB } = await resp.json();
+    localStorage.setItem('token', tokenDB );
+    usuario = userDB;
     document.title = usuario.nombre;
 
     await conectarSocket();
+    
 }
 
 const conectarSocket = async() => {
-
+    
     socket = io({
         'extraHeaders': {
             'x-token': localStorage.getItem('token')
@@ -50,16 +53,18 @@ const conectarSocket = async() => {
         console.log('Sockets offline')
     });
 
-    //socket.on('recibir-mensajes', dibujarMensajes );
+    socket.on('recibir-mensajes', dibujarMensajes );
     socket.on('usuarios-activos', dibujarUsuarios );
 
     socket.on('mensaje-privado', ( payload ) => {
         console.log('Privado:', payload )
     });
+
+
 }
 
 const dibujarUsuarios = ( usuarios = []) => {
-    console.log(usuarios)
+
     let usersHtml = '';
     usuarios.forEach( ({ nombre, uid }) => {
 
@@ -77,12 +82,70 @@ const dibujarUsuarios = ( usuarios = []) => {
 
 }
 
-const main = async () => {
 
-    await validarJWT()
+const dibujarMensajes = ( mensajes = []) => {
+
+    let mensajesHTML = '';
+    mensajes.forEach( ({ nombre, mensaje }) => {
+
+        mensajesHTML += `
+            <li>
+                <p>
+                    <span class="text-primary">${ nombre }: </span>
+                    <span>${ mensaje }</span>
+                </p>
+            </li>
+        `;
+    });
+
+    ulMensajes.innerHTML = mensajesHTML;
 
 }
 
-// const socket = io();
 
-main();
+txtMensaje.addEventListener('keyup', ({ keyCode }) => {
+    
+    const mensaje = txtMensaje.value;
+    const uid     = txtUid.value;
+
+    if( keyCode !== 13 ){ return; }
+    if( mensaje.length === 0 ){ return; }
+
+    socket.emit('enviar-mensaje', { mensaje, uid });
+
+    txtMensaje.value = '';
+
+})
+
+
+btnSalir.addEventListener('click', ()=> {
+
+    localStorage.removeItem('token');
+
+    const auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then( () => {
+        console.log('User signed out.');
+        window.location = 'index.html';
+    });
+});
+
+const main = async() => {
+    // Validar JWT
+    await validarJWT();
+}
+
+(()=>{
+    gapi.load('auth2', () => {
+        gapi.auth2.init();
+        main();
+    });
+})();
+
+
+
+
+
+
+
+// main();
+
