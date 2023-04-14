@@ -1,6 +1,15 @@
 
 let usuario = null;
 let socket = null;
+
+//referencias html
+const txtUid     = document.querySelector('#txtUid');
+const txtMensaje = document.querySelector('#txtMensaje');
+const ulUsuarios = document.querySelector('#ulUsuarios');
+const ulMensajes = document.querySelector('#ulMensajes');
+const btnSalir   = document.querySelector('#btnSalir');
+
+
 const url = 'http://localhost:8081/api/auth/'
 
 //validar el token del local storage
@@ -41,6 +50,12 @@ const conectarSocket = async() => {
         console.log('Sockets offline')
     });
 
+    socket.on('recibir-mensajes', dibujarMensajes );
+    socket.on('usuarios-activos', dibujarUsuarios );
+
+    socket.on('mensaje-privado', ( payload ) => {
+        console.log('Privado:', payload )
+    });
 }
 
 
