@@ -7,10 +7,9 @@ miFormularo.addEventListener('submit', ev=> {
     ev.preventDefault();
 
     const formData = {};
-    
     for( let el of miFormularo.elements){
         if(el.name.length > 0 ){
-            formData[el.name] = el.ariaValueMax;
+            formData[el.name] = el.value;
         }
     }
     
@@ -28,6 +27,7 @@ miFormularo.addEventListener('submit', ev=> {
        }
 
         localStorage.setItem('token',token)
+        window.location = 'chat.html';
     })
     .catch( console.warn );
 })
@@ -51,6 +51,7 @@ function handleCredentialResponse(response) {
         .then( ({token}) => {
             console.log(token)
             localStorage.setItem('token',token)
+            window.location = 'chat.html';
         })
         .catch( console.warn );
 
