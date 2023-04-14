@@ -50,7 +50,7 @@ const conectarSocket = async() => {
         console.log('Sockets offline')
     });
 
-    socket.on('recibir-mensajes', dibujarMensajes );
+    //socket.on('recibir-mensajes', dibujarMensajes );
     socket.on('usuarios-activos', dibujarUsuarios );
 
     socket.on('mensaje-privado', ( payload ) => {
@@ -58,6 +58,24 @@ const conectarSocket = async() => {
     });
 }
 
+const dibujarUsuarios = ( usuarios = []) => {
+    console.log(usuarios)
+    let usersHtml = '';
+    usuarios.forEach( ({ nombre, uid }) => {
+
+        usersHtml += `
+            <li>
+                <p>
+                    <h5 class="text-success"> ${ nombre } </h5>
+                    <span class="fs-6 text-muted">${ uid }</span>
+                </p>
+            </li>
+        `;
+    });
+
+    ulUsuarios.innerHTML = usersHtml;
+
+}
 
 const main = async () => {
 

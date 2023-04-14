@@ -1,19 +1,17 @@
-class Mnesaje {
-    constructor(uid,nombre,mensaje){
-        this.uid = uid;
-        this.nombre = nombre;
+class Mensaje {
+    constructor( uid, nombre, mensaje ) {
+        this.uid     = uid;
+        this.nombre  = nombre;
         this.mensaje = mensaje;
     }
 }
 
 
-
 class ChatMensajes {
-    
 
-    constructor(){
+    constructor() {
         this.mensajes = [];
-        this.usuarios =  {};
+        this.usuarios = {};
     }
 
     get ultimos10() {
@@ -21,21 +19,21 @@ class ChatMensajes {
         return this.mensajes;
     }
 
-    get usuariosArr(){
-        return Object.values(this.usuarios);
+    get usuariosArr() {
+        return Object.values( this.usuarios ); // [ {}, {}, {}]
     }
 
-    enviarMensaje(uid,nombre,mensaje){
+    enviarMensaje( uid, nombre, mensaje ) {
         this.mensajes.unshift(
-            new Mnesaje(uid,nombre,mensaje)
+            new Mensaje(uid, nombre, mensaje)
         );
     }
 
-    conectarUsuario (usuario){
+    conectarUsuario( usuario ) {
         this.usuarios[usuario.id] = usuario
     }
 
-    desconectarUsuario(id){
+    desconectarUsuario( id ) {
         delete this.usuarios[id];
     }
 

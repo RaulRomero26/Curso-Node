@@ -73,7 +73,7 @@ class Server {
     }
 
     sockets(){
-        this.io.on('connnection',socketController)
+        this.io.on('connnection',(socket)=>socketController(socket,this.io))
     }
 
     listen() {
