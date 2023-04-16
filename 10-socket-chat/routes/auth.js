@@ -21,7 +21,8 @@ router.post('/google',[
     validarCampos
 ], googleSignin );
 
-router.get('/', validarJWT, renovarToken )
+router.get('/', validarJWT, renovarToken );
+
 
 
 module.exports = router;

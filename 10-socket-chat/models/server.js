@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
+const { createServer } = require('http');
 
 const { dbConnection } = require('../database/config');
 const { socketController } = require('../sockets/controller');
@@ -10,8 +11,8 @@ class Server {
     constructor() {
         this.app  = express();
         this.port = process.env.PORT;
-        this.server = require('http').createServer( this.app );
-        this.io = require('socket.io')(this.server);
+        this.server = createServer( this.app );
+        this.io     = require('socket.io')(this.server)
 
         this.paths = {
             auth:       '/api/auth',
@@ -31,8 +32,8 @@ class Server {
 
         // Rutas de mi aplicación
         this.routes();
-        
-        //sockets
+
+        // Sockets
         this.sockets();
     }
 
@@ -72,8 +73,9 @@ class Server {
         
     }
 
-    sockets(){
-        this.io.on('connnection',(socket)=>socketController(socket,this.io))
+
+    sockets() {
+        this.io.on('connection', ( socket ) => socketController(socket, this.io ) )
     }
 
     listen() {

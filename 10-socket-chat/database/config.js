@@ -6,12 +6,8 @@ const dbConnection = async() => {
 
     try {
 
-        await mongoose.connect( process.env.MONGODB_CNN, {
+        await mongoose.connect(process.env.MONGODB_CNN,{
             dbName: 'socketChat',
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            useCreateIndex: true,
-            useFindAndModify: false
         });
     
         console.log('Base de datos online');

@@ -1,7 +1,4 @@
-const url = ( window.location.hostname.includes('localhost') )
-            ? 'http://localhost:8080/api/auth/'
-            : 'https://restserver-curso-fher.herokuapp.com/api/auth/';
-
+const url = 'http://localhost:8081/api/auth/';
 let usuario = null;
 let socket  = null;
 
